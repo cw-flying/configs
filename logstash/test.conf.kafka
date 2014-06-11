@@ -1,0 +1,17 @@
+input {
+  kafka {
+    zk_connect => 'localhost:2181'
+    group_id => 'logstash'
+    topic_id => 'testing'
+    consumer_restart_on_error => true
+    consumer_restart_sleep_ms => 100
+    consumer_id => "mylocohst"
+    codec => 'json'
+  }
+}
+
+output {
+  stdout {
+     codec => rubydebug
+  }
+}

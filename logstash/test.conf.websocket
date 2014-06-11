@@ -1,0 +1,19 @@
+input {
+  file {
+ 	add_field => ["system", "mytest"]
+    start_position => beginning
+    path => ["/var/log/syslog"]
+  }
+}
+
+output {
+  stdout {
+    codec => rubydebug
+  }
+
+  websocket {
+    host=> "localhost"
+    port=> 3000
+  }
+			
+}
