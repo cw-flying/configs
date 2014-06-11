@@ -10,8 +10,38 @@ input {
   }
 }
 
+filter {
+  date {
+    match => ["timestamp", 
+      "yyyyMMddHHmmss", 
+      "yyyy-MM-dd HH:mm:ss",
+      "MMM dd HH:mm:ss.SSS",
+      "MMM d HH:mm:ss.SSS",
+      "MMM dd HH:mm:ss",
+      "MMM d HH:mm:ss",
+      "MMM dd yyyy HH:mm:ss.SSS",
+      "MMM d yyyy HH:mm:ss.SSS",
+      "MMM dd yyyy HH:mm:ss",
+      "MMM d yyyy HH:mm:ss" ]
+    add_tag => ["dated"]  
+  }
+
+  uuid { 
+    target => "@uuid"
+  }
+}
+
 output {
   stdout {
      codec => rubydebug
+  }
+
+  elasticsearch {
+    protocol => "transport"
+    host => "127.0.0.1"
+    port => "9300"
+    cluster => "iShark" 
+    index => "%{test}-%{+YYYY.MM.dd}"
+    workers => 2
   }
 }
